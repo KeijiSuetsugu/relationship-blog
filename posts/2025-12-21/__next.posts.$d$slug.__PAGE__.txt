@@ -3,62 +3,105 @@
 3:I[5500,["/_next/static/chunks/ffbb96791c6baff7.js"],"Image"]
 b:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/7340adf74ff47ec0.js"],"OutletBoundary"]
 c:"$Sreact.suspense"
-4:T2336,<h2>はじめに（400文字）</h2>
-<p>子供を持つと、自然と交流が広がるのがママ友やパパ友との関係です。しかし、気軽に始まった友好関係がいつの間にかストレスやトラブルの元になってしまうことも少なくありません。あなたも、自分に合った友人関係を築くことができずに悩んでいるのではないでしょうか？「誰とでもうまくやらなければならない」「気を使いすぎて疲れてしまう」といった声も耳にします。そこで、この記事ではママ友やパパ友との付き合い方について、心理学的背景を踏まえた上で具体的な解決策を提供します。これを読むことで、あなたは人間関係に対する理解が深まり、より良い友好関係を築くための具体的な方法を知ることができるでしょう。今こそ、あなた自身が心地よい関係を築くための第一歩を踏み出す時です。</p>
-<h2>なぜママ友・パパ友との付き合い方が難しいのか（500文字）</h2>
-<p>ママ友やパパ友との関係が難しい理由は、いくつかの心理的要因に起因しています。まず一つ目は「比較」です。子供の成長や育児スタイル、教育方針など、無意識のうちに他の親と自分を比較してしまいがちです。この比較は、自己評価を下げる要因となり、結果として友好関係がぎくしゃくしてしまいます。</p>
-<p>二つ目は「期待」です。「良い友達」としての期待が高まると、その期待に応えられない自分に対するストレスを感じることがあります。このような期待は、相手からの評価を気にするあまり、本来の自分を見失う結果にもつながります。</p>
-<p>三つ目は「コミュニケーションの難しさ」です。親同士は子供を通じてのつながりがあるため、共通の話題がある一方で、パーソナルな話題に入ることが難しいことも多いです。このような状況下では、表面的な関係に終始し、深い信頼関係を築くことが難しくなります。</p>
-<p>これらの要因から、ママ友やパパ友との付き合いは、ストレスや緊張感を伴う場合が多く、あなたもそうした経験をしたことがあるかもしれません。次のセクションでは、これらの問題を解決するための具体的な方法を見ていきましょう。</p>
-<h2>解決策1：オープンなコミュニケーションを心掛ける（500文字）</h2>
-<p>ママ友やパパ友との関係を円滑に進めるためには、オープンなコミュニケーションが不可欠です。相手に対して自分の気持ちや考えを率直に伝えることで、誤解や不安を解消することができます。具体的には、以下のような会話が良い例です。</p>
-<h3>良い例</h3>
-<p>「子供が最近、夜泣きをしているんです。どうしたらいいか悩んでいて…あなたはどうしてますか？」</p>
-<p>このように、自分の悩みを率直に話すことで相手も心を開きやすくなり、信頼関係が深まります。</p>
-<h3>悪い例</h3>
-<p>「他のママ友はみんな育児が上手な気がして…私だけ取り残されている気がする。」</p>
-<p>このような発言は、相手に負担をかけるだけでなく、自分自身もネガティブな気持ちを引きずることになります。</p>
-<p>オープンなコミュニケーションを実践するためのポイントは、まず自分の気持ちを整理し、相手に対して感謝や共感を持って話すことです。お互いの育児について話し合うことで、心の支えにもなりますし、解決策を見つける手助けにもなります。</p>
-<h2>解決策2：適度な距離感を保つ（500文字）</h2>
-<p>ママ友やパパ友との関係では、適度な距離感を持つことも重要です。距離を持つことで、自分自身のプライバシーを守りつつ、無理なく付き合うことができるようになります。ここでのポイントは、「必要以上に関与しない」ことです。</p>
-<h3>良い例</h3>
-<p>「子供が風邪を引いてしまったので、今日はお休みします。また次回、集まる時にお声かけさせてください。」</p>
-<p>このように、はっきりとした理由を伝えた上で、自分の時間を大切にする姿勢を示すことが大切です。</p>
-<h3>悪い例</h3>
-<p>「みんなが集まるから、私も行かなきゃ…でも、ちょっと疲れているのに。」</p>
-<p>このように、無理に参加しようとすると、ストレスが溜まり、相手に対しても不満を抱く原因になります。</p>
-<p>適度な距離感を保つためには、自分の時間を尊重する習慣をつけることが効果的です。例えば、友達と会う前に、自分の気持ちを確認する時間を設けることで、「今日は会うべきか、無理をしないべきか」を判断しやすくなります。その結果、関係をより健全に保つことができるでしょう。</p>
-<h2>解決策3：共通の趣味や活動を見つける（500文字）</h2>
-<p>ママ友やパパ友との関係を深めるためには、共通の趣味や活動を見つけることが非常に役立ちます。共通の話題や経験があることで、より親密な関係を築くことができます。</p>
-<h3>良い例</h3>
-<p>「最近、子供と一緒に料理を始めたんです。今度一緒に料理教室に行かない？」</p>
-<p>このように、相手を誘うことで共通の趣味を楽しむ機会が増え、自然な形で親密さが深まります。</p>
-<h3>悪い例</h3>
-<p>「いつも同じ話題になってしまうから、もう話すことがない…。」</p>
-<p>このようにネガティブな気持ちを抱えていると、自然な交流ができません。共通の趣味や興味を探ることが大切です。</p>
-<p>共通の趣味を見つける方法として、地域のイベントや教室に参加することが大切です。新たな出会いや経験を通じて、関係がより豊かになる可能性が高まります。また、子供同士の活動を通じて自然に会話が生まれることも多いので、積極的に参加してみましょう。</p>
-<h2>今日からできる実践のコツ（400文字）</h2>
-<p>ママ友やパパ友との付き合い方を改善するためのコツをいくつか紹介します。これらは日常で簡単に取り入れることができる方法です。</p>
+4:T2c3d,<h2>はじめに</h2>
+<p>あなたは、何かのきっかけで人間関係が崩れてしまい、「もう一度やり直したい」と思ったことはありませんか？友人との関係、職場の同僚、恋人との関係など、様々な場面で人間関係の悩みはつきものです。ある日、あなたが大切にしていた関係が、ちょっとした誤解やすれ違いでギクシャクしてしまったとします。その時、心の中に「やり直したい」という気持ちが生まれるのは、ごく自然なことです。</p>
+<p>私自身、何度もこのような経験をしてきました。「あの時、もっと素直に気持ちを伝えられていれば…」と後悔したこともあります。人間関係のリセットは、新たなスタートを切るための一歩ですが、正直言って、簡単なことではありませんよね。特に、思い出や感情が絡んだ関係では、手放すことが難しいものです。</p>
+<p>この記事では、なぜ人間関係のリセットが難しいのか、そしてどのようにして新しいスタートを切ることができるのかを、一緒に考えていきます。リセットすることで、あなた自身が心の中でどのように変わるのか、そしてどうすればより良い関係を築いていけるのかを探求していきましょう。</p>
+<p>この記事を読むことで、あなたは自分自身を見つめ直す方法や、他者とのコミュニケーションを改善するための具体的な手法を学ぶことができます。人間関係は日々の生活に大きな影響を与えるものですから、少しでも自分に合った方法を見つけて、より良い関係を築いていけることを願っています。</p>
+<h2>なぜ人間関係のリセット：新しいスタートが難しいのか</h2>
+<p>人間関係のリセットが難しい理由はいくつかありますが、主に心理学的な要因が大きく関わっています。例えば、私たちは「帰属理論」という考え方を持っています。これは、自分や他者の行動の原因を理解するためのもので、私たちはこれを通じて周囲の状況を解釈します。ある人が自分に対して冷たく接したとき、私たちはその人の性格や状況を考慮し、その行動の理由を見つけようとします。この過程で、「私が悪かったのではないか」と自分を責めることが多く、関係のリセットを難しくする要因の一つです。</p>
+<p>また、「承認欲求」も大きな影響を与えます。私たちは他者からの承認を求める生き物です。この承認が得られないと、自己評価が低下し、関係を続けることが億劫になることがあります。特に、長い時間をかけて築いてきた関係が壊れそうになると、その痛みは非常に大きく感じられるものです。</p>
+<p>具体的な失敗例としては、友人との間に誤解が生じたケースを考えてみましょう。例えば、友人があなたの誕生日を祝ってくれなかったとします。「どうして祝ってくれなかったの？」と聞いたところ、友人は「忘れてた」と素っ気ない返事をしてしまった。ここであなたは「私は大切に思われていないのかもしれない」と考え、心の中に不安が生まれます。このようなネガティブな感情が蓄積されると、ますます相手との距離ができてしまいます。</p>
+<p>このように、心理学的な背景が人間関係のリセットを難しくしていますが、リセットを試みること自体は悪いことではありません。新しいスタートを切るためには、まずは自分の気持ちを整理し、相手との関係を見直すことが重要です。次のセクションでは、具体的な方法について考えていきましょう。</p>
+<h2>解決策3：誠実なコミュニケーションを心がける</h2>
+<p>人間関係をリセットするためには、誠実なコミュニケーションが欠かせません。自己表現ができないと、相手との理解が深まりませんし、結果的に誤解を招くことになります。では、具体的にどのようにコミュニケーションを取るべきなのでしょうか。</p>
+<h3>具体的な方法の説明</h3>
+<p>まず、あなたの気持ちや考えを素直に伝えることから始めましょう。相手に対して何を感じ、何を望んでいるのかを明確にすることが大切です。ここで重要なのは、相手を責めるのではなく、自分の感情を中心に話すことです。</p>
+<p>例えば、友人との関係がギクシャクしている場合、以下のような会話を試みてみてください。</p>
+<ul>
+<li>
+<p><strong>良い例</strong>:
+「最近、私たちの関係が少しおかしいと感じているんだ。何か心にあることがあったら、教えてもらえるかな？私も自分の気持ちを話したいと思ってる。」</p>
+</li>
+<li>
+<p><strong>悪い例</strong>:
+「最近、あなたが私を無視しているように感じるんだけど、それってどういうつもりなの？」</p>
+</li>
+</ul>
+<p>良い例のように、自分の感情を伝えることで、相手も安心して心の内を話しやすくなります。悪い例では、責めるトーンが強く、相手は防御的になってしまうでしょう。</p>
+<h3>実践のポイント</h3>
+<p>誠実なコミュニケーションを心がけるためには、次のポイントを意識してみてください。</p>
+<ol>
+<li><strong>非言語コミュニケーションに注意</strong>: 自分の表情や身振りも大切です。相手が話しやすい雰囲気をつくることが重要です。</li>
+<li><strong>受け入れの姿勢を持つ</strong>: 相手の意見や感情を否定せずに受け入れることで、信頼関係が生まれます。</li>
+<li><strong>定期的なチェックイン</strong>: お互いの気持ちを確認する時間を設けることで、小さな誤解を未然に防ぐことができます。</li>
+</ol>
+<p>これらを意識しながら、日々のコミュニケーションを工夫してみてください。</p>
+<h2>解決策4：境界を設ける</h2>
+<p>人間関係をリセットするためには、時には境界を設けることも必要です。特に、相手との関係が自分自身にとってネガティブな影響を与えている場合、明確な境界を持つことで自分を守ることができます。</p>
+<h3>具体的な方法の説明</h3>
+<p>境界を設けるとは、相手にどこまで自分を開放するか、またはどのような言動が許容できるかを明確にすることです。これによって、あなた自身が過度にストレスを感じることが減ります。</p>
+<p>以下のような会話を通じて、境界を設けることができます。</p>
+<ul>
+<li>
+<p><strong>良い例</strong>:
+「最近、仕事のことでストレスが多くて、あまり他のことを考える余裕がないんだ。しばらくは、一緒に出かけるのは難しいかもしれない。」</p>
+</li>
+<li>
+<p><strong>悪い例</strong>:
+「あなたといると、いつも疲れるから、もう連絡しないでほしい。」</p>
+</li>
+</ul>
+<p>良い例では、自分の状況を伝えつつ、相手に対する配慮も感じられます。悪い例では、相手に対して非常に冷たい印象を与えてしまいます。</p>
+<h3>実践のポイント</h3>
+<p>境界を設ける際のポイントは次の通りです。</p>
+<ol>
+<li><strong>具体的で明確に</strong>: どんな行動や言動が自分にストレスを与えているのかを具体的に伝えます。</li>
+<li><strong>優しさを忘れない</strong>: 強く出るのではなく、相手を思いやる気持ちを伝えながら境界を設けることが大切です。</li>
+<li><strong>自分を優先する</strong>: 自分の感情やニーズを大切にし、他人の期待に応えようとして無理をしないことが重要です。</li>
+</ol>
+<p>これらのポイントを意識しながら、あなた自身の境界を設けてみてください。</p>
+<h2>今日からできる実践のコツ</h2>
+<p>人間関係をリセットするために、日常生活で簡単に実践できるテクニックをいくつかご紹介します。</p>
+<h3>ステップバイステップの説明</h3>
 <ol>
 <li>
-<p><strong>感謝の気持ちを伝える</strong>: 小さなことでも感謝の言葉をかけることで、相手との関係が深まります。「今日もお話できて楽しかったです、ありがとう」と伝えてみましょう。</p>
+<p><strong>感謝の気持ちを伝える</strong>:</p>
+<ul>
+<li>日常の小さなことに感謝の言葉を伝えましょう。例えば、友人に「いつも話を聞いてくれてありがとう」と言うだけで、関係が温かくなります。</li>
+</ul>
 </li>
 <li>
-<p><strong>感情を共有する</strong>: 日常の些細な出来事や感情を共有することで、相手との距離が縮まります。「今日は子供が寝てくれなくて大変だった」と言うと、相手も共感しやすくなります。</p>
+<p><strong>リフレーミング</strong>:</p>
+<ul>
+<li>ネガティブな出来事をポジティブに捉え直す練習をしましょう。例えば、「この人と話すのが苦手」と思った場合、「この人と話すことで学べることがある」と考えてみることが大切です。</li>
+</ul>
 </li>
 <li>
-<p><strong>無理をしない</strong>: 自分のペースを大切にし、無理に関わりを持とうとしないことが重要です。「今日は体調が良くないので、また次回お声かけします」と言うことで、自分の気持ちを大切にしましょう。</p>
+<p><strong>フィードバックを求める</strong>:</p>
+<ul>
+<li>相手に自分の行動についてどう思うか、率直に聞いてみましょう。「私のこういうところが気になる？改善した方がいいかな？」と尋ねることで、お互いの理解が深まります。</li>
+</ul>
 </li>
 <li>
-<p><strong>定期的なコミュニケーション</strong>: SNSやグループチャットを利用して、定期的にコミュニケーションを図ることで、関係を維持しやすくなります。</p>
+<p><strong>自分を見つめ直す時間を作る</strong>:</p>
+<ul>
+<li>日記をつけたり、瞑想をしたりして、自分自身の感情やニーズを見つめる時間を持ちましょう。これによって、自分の本当の気持ちを理解しやすくなります。</li>
+</ul>
+</li>
+<li>
+<p><strong>ポジティブなアファメーション</strong>:</p>
+<ul>
+<li>自分を励ますための言葉を用意しましょう。「私は大切な人間であり、良い関係を築くことができる」といった言葉を日々唱えることで、自信を持てるようになります。</li>
+</ul>
 </li>
 </ol>
-<p>これらのコツを取り入れることで、より良いママ友・パパ友との関係を築くことができるでしょう。</p>
-<h2>まとめ（300文字）</h2>
-<p>ママ友やパパ友との関係は、時にストレスの原因にもなりますが、適切なアプローチをすることで、より良い関係を築くことが可能です。オープンなコミュニケーションを心掛け、適度な距離感を保ち、共通の趣味を見つけることで、信頼関係を深めることができます。さらに、日常の中で実践可能なコツを取り入れることで、自然な形で関係を築くことができるでしょう。</p>
-<p>あなたは一人ではありません。育児や人間関係において悩むことは多いですが、小さなステップを踏むことで、必ず変化を感じることができます。まずは、今日から一つでも実践できることを始めてみましょう。あなたの努力が、素敵な友好関係を生み出すきっかけになることを願っています。</p>
-0:{"buildId":"v5aa-npFS5jmIcHVBNxMB","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"min-h-screen","children":[["$","header",null,{"className":"border-b border-[var(--color-secondary)] bg-white/80 backdrop-blur-sm sticky top-0 z-50","children":["$","div",null,{"className":"container mx-auto px-4 py-4 flex items-center justify-between","children":[["$","$L2",null,{"href":"/","className":"text-xl font-bold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent","children":"Ennek Lab"}],["$","$L2",null,{"href":"/","className":"flex items-center text-[var(--color-muted)] hover:text-[var(--color-primary)] transition-colors","children":[["$","svg",null,{"className":"w-5 h-5 mr-1","fill":"none","stroke":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":2,"d":"M15 19l-7-7 7-7"}]}],"記事一覧に戻る"]}]]}]}],["$","main",null,{"className":"container mx-auto px-4 py-8 md:py-12","children":["$","article",null,{"className":"max-w-3xl mx-auto","children":[["$","div",null,{"className":"relative h-64 md:h-96 rounded-2xl overflow-hidden mb-8 shadow-lg opacity-0 animate-fade-in-up","children":[["$","$L3",null,{"src":"/images/2025-12-21.jpg","alt":"ママ友・パパ友との付き合い方","fill":true,"className":"object-cover","priority":true}],["$","div",null,{"className":"absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"}]]}],["$","header",null,{"className":"mb-12 opacity-0 animate-fade-in-up animate-delay-100","children":[["$","div",null,{"className":"flex flex-wrap items-center gap-4 mb-6","children":[["$","time",null,{"className":"text-[var(--color-muted)]","children":"2025年12月21日（日）"}],["$","span",null,{"className":"tag","children":"ママ友・パパ友との付き合い方"}],["$","span",null,{"className":"text-sm text-[var(--color-muted)]","children":["3,014","文字"]}]]}],["$","h1",null,{"className":"text-3xl md:text-4xl font-bold leading-tight mb-6","children":"ママ友・パパ友との付き合い方"}],["$","p",null,{"className":"text-sm text-[var(--color-muted)]","children":["📷 Photo by"," ",["$","a",null,{"href":"https://unsplash.com/photos/a-couple-of-people-holding-hands-in-a-field-MfKIwAlK3Eg","target":"_blank","rel":"noopener noreferrer","className":"underline hover:text-[var(--color-primary)]","children":"Kateryna Hliznitsova"}]," ","on Unsplash"]}]]}],["$","div",null,{"className":"article-content opacity-0 animate-fade-in-up animate-delay-200","dangerouslySetInnerHTML":{"__html":"$4"}}],"$L5","$L6"]}]}],"$L7"]}],["$L8"],"$L9"]}],"loading":null,"isPartial":false}
-a:T42c,M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.3145:["$","div",null,{"className":"mt-16 pt-8 border-t border-[var(--color-secondary)]","children":[["$","p",null,{"className":"text-center text-[var(--color-muted)] mb-4","children":"この記事が役に立ったら、シェアしてください"}],["$","div",null,{"className":"flex justify-center gap-4","children":[["$","a",null,{"href":"https://twitter.com/intent/tweet?text=%E3%83%9E%E3%83%9E%E5%8F%8B%E3%83%BB%E3%83%91%E3%83%91%E5%8F%8B%E3%81%A8%E3%81%AE%E4%BB%98%E3%81%8D%E5%90%88%E3%81%84%E6%96%B9&url=https%3A%2F%2Fyourdomain.com%2Fposts%2F2025-12-21","target":"_blank","rel":"noopener noreferrer","className":"w-12 h-12 rounded-full bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-80 transition-opacity","children":["$","svg",null,{"className":"w-5 h-5","fill":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"d":"M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"}]}]}],["$","a",null,{"href":"https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fyourdomain.com%2Fposts%2F2025-12-21","target":"_blank","rel":"noopener noreferrer","className":"w-12 h-12 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:opacity-80 transition-opacity","children":["$","svg",null,{"className":"w-5 h-5","fill":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"d":"M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"}]}]}],["$","a",null,{"href":"https://line.me/R/msg/text/?%E3%83%9E%E3%83%9E%E5%8F%8B%E3%83%BB%E3%83%91%E3%83%91%E5%8F%8B%E3%81%A8%E3%81%AE%E4%BB%98%E3%81%8D%E5%90%88%E3%81%84%E6%96%B9%20https%3A%2F%2Fyourdomain.com%2Fposts%2F2025-12-21","target":"_blank","rel":"noopener noreferrer","className":"w-12 h-12 rounded-full bg-[#00B900] text-white flex items-center justify-center hover:opacity-80 transition-opacity","children":["$","svg",null,{"className":"w-5 h-5","fill":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"d":"$a"}]}]}]]}]]}]
+<p>これらのテクニックを日常生活に取り入れることで、人間関係のリセットがスムーズに進むでしょう。</p>
+<h2>まとめ</h2>
+<p>人間関係のリセットは簡単なことではありません。しかし、自分を見つめ直し、誠実なコミュニケーションを心がけ、適切な境界を設けることで、新しいスタートを切ることができます。今日ご紹介した具体的な会話例や実践的なアドバイスを参考に、ぜひあなた自身の人間関係を見直してみてください。</p>
+<p>そして、何よりも大切なのは、自分自身を大切にすることです。人間関係はお互いに影響を与え合うものですが、まずは自分が幸せでいることが、良い関係を築くための第一歩です。あなたの新しいスタートを応援しています。次に一歩を踏み出す勇気を持って、これからの人間関係を楽しんでくださいね。</p>
+0:{"buildId":"Za3hc8jCCfQEqORn4hyz7","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"min-h-screen","children":[["$","header",null,{"className":"border-b border-[var(--color-secondary)] bg-white/80 backdrop-blur-sm sticky top-0 z-50","children":["$","div",null,{"className":"container mx-auto px-4 py-4 flex items-center justify-between","children":[["$","$L2",null,{"href":"/","className":"text-xl font-bold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent","children":"Ennek Lab"}],["$","$L2",null,{"href":"/","className":"flex items-center text-[var(--color-muted)] hover:text-[var(--color-primary)] transition-colors","children":[["$","svg",null,{"className":"w-5 h-5 mr-1","fill":"none","stroke":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":2,"d":"M15 19l-7-7 7-7"}]}],"記事一覧に戻る"]}]]}]}],["$","main",null,{"className":"container mx-auto px-4 py-8 md:py-12","children":["$","article",null,{"className":"max-w-3xl mx-auto","children":[["$","div",null,{"className":"relative h-64 md:h-96 rounded-2xl overflow-hidden mb-8 shadow-lg opacity-0 animate-fade-in-up","children":[["$","$L3",null,{"src":"/images/2025-12-21.jpg","alt":"人間関係のリセット：新しいスタートのために","fill":true,"className":"object-cover","priority":true}],["$","div",null,{"className":"absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"}]]}],["$","header",null,{"className":"mb-12 opacity-0 animate-fade-in-up animate-delay-100","children":[["$","div",null,{"className":"flex flex-wrap items-center gap-4 mb-6","children":[["$","time",null,{"className":"text-[var(--color-muted)]","children":"2025年12月21日（日）"}],["$","span",null,{"className":"tag","children":"人間関係のリセット：新しいスタート"}],["$","span",null,{"className":"text-sm text-[var(--color-muted)]","children":["3,748","文字"]}]]}],["$","h1",null,{"className":"text-3xl md:text-4xl font-bold leading-tight mb-6","children":"人間関係のリセット：新しいスタートのために"}],["$","p",null,{"className":"text-sm text-[var(--color-muted)]","children":["📷 Photo by"," ",["$","a",null,{"href":"https://unsplash.com/photos/a-man-and-a-woman-standing-next-to-each-other-rjzW_IIjBJc","target":"_blank","rel":"noopener noreferrer","className":"underline hover:text-[var(--color-primary)]","children":"Matheus Câmara da Silva"}]," ","on Unsplash"]}]]}],["$","div",null,{"className":"article-content opacity-0 animate-fade-in-up animate-delay-200","dangerouslySetInnerHTML":{"__html":"$4"}}],"$L5","$L6"]}]}],"$L7"]}],["$L8"],"$L9"]}],"loading":null,"isPartial":false}
+a:T42c,M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.3145:["$","div",null,{"className":"mt-16 pt-8 border-t border-[var(--color-secondary)]","children":[["$","p",null,{"className":"text-center text-[var(--color-muted)] mb-4","children":"この記事が役に立ったら、シェアしてください"}],["$","div",null,{"className":"flex justify-center gap-4","children":[["$","a",null,{"href":"https://twitter.com/intent/tweet?text=%E4%BA%BA%E9%96%93%E9%96%A2%E4%BF%82%E3%81%AE%E3%83%AA%E3%82%BB%E3%83%83%E3%83%88%EF%BC%9A%E6%96%B0%E3%81%97%E3%81%84%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AB&url=https%3A%2F%2Fyourdomain.com%2Fposts%2F2025-12-21","target":"_blank","rel":"noopener noreferrer","className":"w-12 h-12 rounded-full bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-80 transition-opacity","children":["$","svg",null,{"className":"w-5 h-5","fill":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"d":"M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"}]}]}],["$","a",null,{"href":"https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fyourdomain.com%2Fposts%2F2025-12-21","target":"_blank","rel":"noopener noreferrer","className":"w-12 h-12 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:opacity-80 transition-opacity","children":["$","svg",null,{"className":"w-5 h-5","fill":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"d":"M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"}]}]}],["$","a",null,{"href":"https://line.me/R/msg/text/?%E4%BA%BA%E9%96%93%E9%96%A2%E4%BF%82%E3%81%AE%E3%83%AA%E3%82%BB%E3%83%83%E3%83%88%EF%BC%9A%E6%96%B0%E3%81%97%E3%81%84%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AB%20https%3A%2F%2Fyourdomain.com%2Fposts%2F2025-12-21","target":"_blank","rel":"noopener noreferrer","className":"w-12 h-12 rounded-full bg-[#00B900] text-white flex items-center justify-center hover:opacity-80 transition-opacity","children":["$","svg",null,{"className":"w-5 h-5","fill":"currentColor","viewBox":"0 0 24 24","children":["$","path",null,{"d":"$a"}]}]}]]}]]}]
 6:["$","div",null,{"className":"mt-12 text-center","children":["$","$L2",null,{"href":"/","className":"btn-primary","children":"記事一覧に戻る"}]}]
 7:["$","footer",null,{"className":"border-t border-[var(--color-secondary)] mt-20 py-12 bg-white/50","children":["$","div",null,{"className":"container mx-auto px-4 text-center","children":[["$","$L2",null,{"href":"/","className":"text-2xl font-bold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent","children":"Ennek Lab"}],["$","p",null,{"className":"text-sm text-[var(--color-muted)] mt-4","children":"あなたの「毎日」が、少しずつ良い方に変わっていく"}],["$","p",null,{"className":"text-xs text-[var(--color-muted)] mt-4","children":["© ",2025," Ennek Lab. All rights reserved."]}]]}]}]
 8:["$","script","script-0",{"src":"/_next/static/chunks/ffbb96791c6baff7.js","async":true}]
