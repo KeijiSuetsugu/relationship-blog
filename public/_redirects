@@ -1,0 +1,4 @@
+# Netlify redirects for static site
+# 存在しないパスをindex.htmlにフォールバック
+/*    /index.html   200
+
