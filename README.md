@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 人間関係ブログ - Ennek Lab
 
-## Getting Started
+毎日自動で人間関係に関する実用的な記事を投稿する静的ブログサイト
 
-First, run the development server:
+## 特徴
+
+- 🤖 **毎日自動投稿**: GitHub Actionsで毎朝7時に新しい記事を自動生成
+- 📝 **5000〜6000字の実用的な記事**: 科学的根拠に基づいた人間関係のアドバイス
+- 🖼️ **無料の高品質画像**: Unsplashから自動取得
+- 🚫 **重複防止**: 4層のチェックで同じ記事は絶対に投稿されない
+- ⚡ **高速表示**: Next.jsによる静的サイト生成
+- 💰 **無料ホスティング**: GitHub Pagesでホスティング
+
+## 技術スタック
+
+- **フレームワーク**: Next.js 16 (App Router)
+- **スタイリング**: Tailwind CSS
+- **記事生成**: OpenAI GPT-4o-mini
+- **画像取得**: Unsplash API
+- **ホスティング**: GitHub Pages
+- **自動化**: GitHub Actions
+
+## セットアップ
+
+### 1. リポジトリをクローン
+
+```bash
+git clone https://github.com/yourusername/relationship-blog.git
+cd relationship-blog
+```
+
+### 2. 依存関係をインストール
+
+```bash
+npm install
+```
+
+### 3. 開発サーバーを起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 4. GitHub Secretsを設定
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+リポジトリの Settings > Secrets and variables > Actions で以下を設定:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Secret名 | 説明 |
+|---------|------|
+| `OPENAI_API_KEY` | OpenAI APIキー（必須） |
+| `UNSPLASH_ACCESS_KEY` | Unsplash APIキー（必須） |
 
-## Learn More
+### 5. GitHub Pagesを有効化
 
-To learn more about Next.js, take a look at the following resources:
+1. Settings > Pages
+2. Source: `Deploy from a branch`
+3. Branch: `gh-pages`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ファイル構成
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+relationship-blog/
+├── content/
+│   └── posts/           # 記事のMarkdownファイル
+├── public/
+│   └── images/          # 記事の画像
+├── scripts/
+│   ├── generate_article.py  # 記事生成スクリプト
+│   └── post_history.json    # 投稿履歴（重複防止用）
+├── src/
+│   ├── app/             # Next.js App Router
+│   └── lib/             # ユーティリティ
+└── .github/
+    └── workflows/       # GitHub Actions
+```
 
-## Deploy on Vercel
+## 記事の手動生成
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# 環境変数を設定
+export OPENAI_API_KEY="your-api-key"
+export UNSPLASH_ACCESS_KEY="your-unsplash-key"
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 記事を生成
+python scripts/generate_article.py
+```
+
+## ライセンス
+
+MIT

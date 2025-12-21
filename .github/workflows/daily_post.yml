@@ -1,0 +1,71 @@
+name: 毎日の記事自動生成
+
+on:
+  schedule:
+    # 毎日日本時間の朝7時（UTC 22:00）に実行
+    - cron: '0 22 * * *'
+  workflow_dispatch:  # 手動実行も可能
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Pythonをセットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Python依存関係をインストール
+        run: |
+          pip install openai requests
+
+      - name: 記事を生成
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+        run: |
+          echo "=== 記事生成開始 ==="
+          python scripts/generate_article.py
+
+      - name: 変更をコミット
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          
+          # 変更がある場合のみコミット
+          if git diff --staged --quiet; then
+            echo "変更なし"
+          else
+            git commit -m "📝 $(date +'%Y-%m-%d') の記事を追加"
+            git push
+          fi
+
+      - name: Node.js依存関係をインストール
+        run: npm ci
+
+      - name: サイトをビルド
+        run: npm run build
+
+      - name: GitHub Pagesにデプロイ
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          publish_branch: gh-pages
+
