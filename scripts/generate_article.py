@@ -393,8 +393,8 @@ class ArticleGenerator:
                 char_count = len(content)
                 print(f"📊 合計文字数: {char_count}文字")
                 
-                # 文字数チェック（5000文字以上を目標）
-                if char_count < 4500:
+                # 文字数チェック（3000文字以上で許容）
+                if char_count < 3000:
                     print(f"⚠️ 文字数不足 ({char_count}字)、再生成します...")
                     continue
                 
