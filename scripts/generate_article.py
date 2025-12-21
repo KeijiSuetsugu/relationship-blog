@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 人間関係ブログ記事自動生成スクリプト
-- 5000〜6000字の実用的な記事
+- 5000〜6000字の実用的な記事（2パート生成方式）
 - Unsplash無料画像
-- 重複防止機能
+- 重複防止機能（4層チェック）
 """
 
 import os
@@ -239,10 +239,133 @@ class ArticleGenerator:
         except:
             return "people connection communication"
     
+    def _generate_part1(self, theme: str, today: datetime) -> tuple:
+        """記事の前半部分を生成（タイトル〜解決策2）"""
+        system_prompt = """あなたは人間関係の専門家であり、プロのブログライターです。
+読者の心に響く、実用的で科学的根拠に基づいた記事を書いてください。
+
+【文体】
+- 親しみやすく、温かみのある「です・ます」調
+- 読者に直接語りかける表現（「あなたは〜」「〜ですよね」）
+
+【必須要素】
+- 具体的な会話例を含める
+- 「良い例」と「悪い例」の比較
+- 心理学や研究の引用
+
+見出しはMarkdown形式（## と ###）で書いてください。"""
+
+        user_prompt = f"""以下のテーマで記事の【前半部分】を書いてください。
+
+テーマ: {theme}
+
+【書く内容】（合計3000文字以上）
+1. 【タイトル】〇〇〇〇〇（魅力的なタイトルを付ける）
+2. ## はじめに（600文字以上）
+   - 読者の悩みに深く共感する導入
+   - 「こんな経験はありませんか？」という問いかけ
+   - この記事を読むメリット
+3. ## なぜ{theme}が難しいのか（700文字以上）
+   - 心理学的な背景の解説
+   - 具体的な失敗例
+4. ## 解決策1：〇〇する（800文字以上）
+   - 具体的な方法の説明
+   - 会話例（良い例・悪い例）
+5. ## 解決策2：〇〇する（800文字以上）
+   - 具体的な方法の説明
+   - 会話例（良い例・悪い例）
+
+各セクションの文字数を必ず守ってください。合計3000文字以上になるように詳しく書いてください。"""
+
+        response = self.client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            max_tokens=5000,
+            temperature=0.8
+        )
+        
+        content = response.choices[0].message.content
+        
+        # タイトルを抽出
+        lines = content.split('\n')
+        title = ""
+        content_lines = []
+        
+        for line in lines:
+            if line.startswith("【タイトル】"):
+                title = line.replace("【タイトル】", "").strip()
+            elif line.startswith("# ") and not title:
+                title = line.replace("# ", "").strip()
+            else:
+                content_lines.append(line)
+        
+        part1_content = '\n'.join(content_lines).strip()
+        
+        if not title:
+            title = theme
+        
+        return title, part1_content
+    
+    def _generate_part2(self, theme: str, title: str, part1_summary: str) -> str:
+        """記事の後半部分を生成（解決策3〜まとめ）"""
+        system_prompt = """あなたは人間関係の専門家であり、プロのブログライターです。
+記事の後半部分を書いてください。前半部分との一貫性を保ってください。
+
+【文体】
+- 親しみやすく、温かみのある「です・ます」調
+- 読者に直接語りかける表現
+
+【必須要素】
+- 具体的な会話例
+- 実践的なアドバイス
+- 励ましのメッセージ
+
+見出しはMarkdown形式（## と ###）で書いてください。"""
+
+        user_prompt = f"""記事の【後半部分】を書いてください。
+
+テーマ: {theme}
+タイトル: {title}
+
+前半で書いた内容の要約:
+{part1_summary[:500]}
+
+【書く内容】（合計2500文字以上）
+1. ## 解決策3：〇〇する（800文字以上）
+   - 具体的な方法の説明
+   - 会話例（良い例・悪い例）
+2. ## 解決策4：〇〇する（600文字以上）
+   - 具体的な方法の説明
+   - 実践のポイント
+3. ## 今日からできる実践のコツ（600文字以上）
+   - 日常で使える簡単なテクニック3〜5つ
+   - ステップバイステップの説明
+4. ## まとめ（500文字以上）
+   - 記事の要点のおさらい
+   - 読者への励ましのメッセージ
+   - 次のアクションの提案
+
+各セクションの文字数を必ず守ってください。合計2500文字以上になるように詳しく書いてください。"""
+
+        response = self.client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            max_tokens=5000,
+            temperature=0.8
+        )
+        
+        return response.choices[0].message.content.strip()
+    
     def generate_article(self) -> dict:
-        """記事を生成"""
+        """記事を生成（2パート方式で5000-6000文字を確保）"""
         history = self.load_post_history()
-        max_retries = 10
+        max_retries = 5
         
         for attempt in range(max_retries):
             print(f"\n📝 記事生成 試行 {attempt + 1}/{max_retries}")
@@ -254,89 +377,24 @@ class ArticleGenerator:
             
             print(f"🎯 テーマ: {theme}")
             
-            # 記事を生成
-            system_prompt = """あなたは人間関係の専門家であり、プロのブログライターです。
-読者の心に響く、実用的で科学的根拠に基づいた長文記事を書いてください。
-
-【絶対条件】
-- 最低でも3500文字以上書いてください
-- 各セクションを詳しく、具体的に書いてください
-
-【記事の構成（必須）】
-1. 導入（400文字以上）：読者の悩みに深く共感し、記事を読むメリットを提示
-2. 問題の本質（500文字以上）：なぜこの問題が起こるのか、心理学的背景を解説
-3. 解決策1（500文字以上）：具体的な方法と会話例
-4. 解決策2（500文字以上）：具体的な方法と会話例  
-5. 解決策3（500文字以上）：具体的な方法と会話例
-6. 実践のコツ（400文字以上）：日常で使えるテクニック
-7. まとめ（300文字以上）：励ましのメッセージと次のアクション
-
-【文体】
-- 親しみやすく、温かみのある「です・ます」調
-- 読者に直接語りかける表現（「あなたは〜」「〜ですよね」）
-
-【必須要素】
-- 具体的な会話例を最低3つ含める
-- 「良い例」と「悪い例」の比較
-- 心理学や研究の引用
-
-見出しはMarkdown形式（## と ###）で書いてください。"""
-
-            user_prompt = f"""以下のテーマで、3500文字以上の詳しい記事を書いてください。
-
-テーマ: {theme}
-
-【構成ガイド】
-## はじめに（400文字）
-## なぜ{theme}が難しいのか（500文字）
-## 解決策1：〇〇する（500文字+会話例）
-## 解決策2：〇〇する（500文字+会話例）
-## 解決策3：〇〇する（500文字+会話例）
-## 今日からできる実践のコツ（400文字）
-## まとめ（300文字）
-
-各セクションの文字数を守り、合計3500文字以上になるよう詳しく書いてください。
-
-記事の冒頭に【タイトル】を付けてください。"""
-
             try:
-                response = self.client.chat.completions.create(
-                    model="gpt-4o-mini",
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    max_tokens=8000,
-                    temperature=0.8
-                )
+                # パート1を生成
+                print("📄 パート1（前半）を生成中...")
+                title, part1 = self._generate_part1(theme, today)
+                print(f"   パート1: {len(part1)}文字")
                 
-                full_text = response.choices[0].message.content
+                # パート2を生成
+                print("📄 パート2（後半）を生成中...")
+                part2 = self._generate_part2(theme, title, part1)
+                print(f"   パート2: {len(part2)}文字")
                 
-                # タイトルと本文を分離
-                lines = full_text.split('\n')
-                title = ""
-                content_lines = []
-                
-                for i, line in enumerate(lines):
-                    if line.startswith("【タイトル】"):
-                        title = line.replace("【タイトル】", "").strip()
-                    elif line.startswith("# "):
-                        title = line.replace("# ", "").strip()
-                    else:
-                        content_lines.append(line)
-                
-                content = '\n'.join(content_lines).strip()
-                
-                # タイトルが見つからない場合
-                if not title:
-                    title = theme
-                
-                # 文字数チェック
+                # 結合
+                content = part1 + "\n\n" + part2
                 char_count = len(content)
-                print(f"📊 文字数: {char_count}文字")
+                print(f"📊 合計文字数: {char_count}文字")
                 
-                # 最低2500文字以上であれば許容（GPT-4o-miniの現実的な出力を考慮）
-                if char_count < 2500:
+                # 文字数チェック（5000文字以上を目標）
+                if char_count < 4500:
                     print(f"⚠️ 文字数不足 ({char_count}字)、再生成します...")
                     continue
                 
@@ -377,6 +435,8 @@ class ArticleGenerator:
                 
             except Exception as e:
                 print(f"⚠️ 生成エラー: {e}")
+                import traceback
+                traceback.print_exc()
                 continue
         
         raise Exception("記事生成に失敗しました（最大試行回数超過）")
@@ -394,8 +454,8 @@ title: "{article['title']}"
 date: "{article['date']}"
 theme: "{article['theme']}"
 image: "{article.get('image', '')}"
-photographer: "{article.get('photo_credit', {}).get('photographer', '')}"
-photoLink: "{article.get('photo_credit', {}).get('link', '')}"
+photographer: "{article.get('photo_credit', {}).get('photographer', '') if article.get('photo_credit') else ''}"
+photoLink: "{article.get('photo_credit', {}).get('link', '') if article.get('photo_credit') else ''}"
 charCount: {article['char_count']}
 ---
 
@@ -435,4 +495,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
