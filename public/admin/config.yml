@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: KeijiSuetsugu/relationship-blog
+  name: git-gateway
   branch: main
 
 publish_mode: editorial_workflow
@@ -18,24 +17,31 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}"
     extension: md
     format: frontmatter
+    sortable_fields: ['date', 'title']
+    view_filters:
+      - label: "2024年"
+        field: date
+        pattern: '2024'
+      - label: "2025年"
+        field: date
+        pattern: '2025'
     fields:
       - { label: タイトル, name: title, widget: string }
-      - { label: 投稿日, name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: 投稿日, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: テーマ, name: theme, widget: string }
-      - { label: アイキャッチ画像, name: image, widget: image, required: false }
+      - { label: アイキャッチ画像, name: image, widget: image, required: false, media_folder: '/public/images', public_folder: '/images' }
       - { label: 写真家, name: photographer, widget: string, required: false }
       - { label: 写真リンク, name: photoLink, widget: string, required: false }
       - { label: 文字数, name: charCount, widget: number, required: false }
       - { label: 本文, name: body, widget: markdown }
 
   - name: settings
-    label: 設定
+    label: サイト設定
     files:
-      - label: サイト設定
-        name: site
+      - label: 基本設定
+        name: general
         file: content/settings.json
         fields:
           - { label: サイト名, name: siteName, widget: string, default: "Ennek Lab" }
           - { label: サイト説明, name: description, widget: text }
           - { label: キャッチコピー, name: tagline, widget: string }
-
