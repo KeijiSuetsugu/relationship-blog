@@ -14,5 +14,42 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // 設定を直接定義
+    CMS.init({
+      config: {
+        backend: {
+          name: 'git-gateway',
+          branch: 'main'
+        },
+        publish_mode: 'editorial_workflow',
+        media_folder: 'public/images',
+        public_folder: '/images',
+        locale: 'ja',
+        collections: [
+          {
+            name: 'posts',
+            label: '記事',
+            folder: 'content/posts',
+            create: true,
+            delete: true,
+            slug: '{{year}}-{{month}}-{{day}}',
+            extension: 'md',
+            format: 'frontmatter',
+            fields: [
+              { label: 'タイトル', name: 'title', widget: 'string' },
+              { label: '投稿日', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false },
+              { label: 'テーマ', name: 'theme', widget: 'string' },
+              { label: 'アイキャッチ画像', name: 'image', widget: 'image', required: false },
+              { label: '写真家', name: 'photographer', widget: 'string', required: false },
+              { label: '写真リンク', name: 'photoLink', widget: 'string', required: false },
+              { label: '文字数', name: 'charCount', widget: 'number', required: false },
+              { label: '本文', name: 'body', widget: 'markdown' }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
