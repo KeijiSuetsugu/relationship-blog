@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>メールアドレス確認 - Ennek Lab</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h1 style="color: #6B4C8A; margin-bottom: 24px;">メールアドレスを確認</h1>
+    <p style="color: #333; font-size: 16px; line-height: 1.6;">
+      Ennek Labへようこそ！メールアドレスを確認するには、以下のボタンをクリックしてください：
+    </p>
+    <div style="text-align: center; margin: 32px 0;">
+      <a href="{{ .SiteURL }}/admin/#confirmation_token={{ .Token }}" 
+         style="display: inline-block; background-color: #6B4C8A; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-size: 16px; font-weight: bold;">
+        メールアドレスを確認する
+      </a>
+    </div>
+    <p style="color: #666; font-size: 14px; line-height: 1.6;">
+      もしボタンが機能しない場合は、以下のURLをブラウザにコピー＆ペーストしてください：
+    </p>
+    <p style="color: #6B4C8A; font-size: 14px; word-break: break-all; background-color: #f9f9f9; padding: 12px; border-radius: 4px;">
+      {{ .SiteURL }}/admin/#confirmation_token={{ .Token }}
+    </p>
+    <hr style="border: none; border-top: 1px solid #eee; margin: 32px 0;">
+    <p style="color: #999; font-size: 12px;">
+      このメールに心当たりがない場合は、無視してください。
+    </p>
+  </div>
+</body>
+</html>
+

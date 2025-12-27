@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  generate-and-deploy:
+  generate-article:
     runs-on: ubuntu-latest
     
     steps:
@@ -18,12 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Node.jsをセットアップ
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pythonをセットアップ
         uses: actions/setup-python@v5
@@ -41,8 +36,9 @@ jobs:
         run: |
           echo "=== 記事生成開始 ==="
           python scripts/generate_article.py
+          echo "=== 記事生成完了 ==="
 
-      - name: 変更をコミット
+      - name: 変更をコミット＆プッシュ
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -50,22 +46,9 @@ jobs:
           
           # 変更がある場合のみコミット
           if git diff --staged --quiet; then
-            echo "変更なし"
+            echo "変更なし - スキップ"
           else
             git commit -m "📝 $(date +'%Y-%m-%d') の記事を追加"
-            git push
+            git push origin main
+            echo "✅ プッシュ完了 - Netlifyが自動でデプロイします"
           fi
-
-      - name: Node.js依存関係をインストール
-        run: npm ci
-
-      - name: サイトをビルド
-        run: npm run build
-
-      - name: GitHub Pagesにデプロイ
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          publish_branch: gh-pages
-
