@@ -1,45 +1,91 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import Script from "next/script";
+import type { Metadata } from "next"
+import Script from "next/script"
+import "./globals.css"
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import { client, isSanityConfigured } from "@/sanity/lib/client"
+import { siteSettingsQuery } from "@/sanity/lib/queries"
+import type { SiteSettings } from "@/sanity/lib/types"
 
-export const metadata: Metadata = {
-  title: "Ennek Lab - 人間関係のヒントを見つける",
-  description: "毎日更新される、科学的根拠に基づいた人間関係改善のためのアドバイス",
-  keywords: ["人間関係", "コミュニケーション", "心理学", "マインドフルネス", "自己肯定感"],
-  openGraph: {
-    title: "Ennek Lab - 人間関係のヒントを見つける",
-    description: "毎日更新される、科学的根拠に基づいた人間関係改善のためのアドバイス",
-    type: "website",
-    locale: "ja_JP",
-  },
-};
+async function getSiteSettings(): Promise<SiteSettings | null> {
+  if (!isSanityConfigured) return null
+  
+  try {
+    return await client.fetch(siteSettingsQuery)
+  } catch {
+    return null
+  }
+}
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings()
+  
+  return {
+    title: {
+      default: settings?.title || "Ennek - 公式サイト & ブログ",
+      template: `%s | ${settings?.title || "Ennek"}`,
+    },
+    description: settings?.description || "エンネクの公式サイトとブログ",
+    keywords: ["エンネク", "ブログ", "人間関係", "コミュニケーション"],
+    openGraph: {
+      title: settings?.title || "Ennek - 公式サイト & ブログ",
+      description: settings?.description || "エンネクの公式サイトとブログ",
+      type: "website",
+      locale: "ja_JP",
+      siteName: settings?.title || "Ennek",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: settings?.title || "Ennek - 公式サイト & ブログ",
+      description: settings?.description || "エンネクの公式サイトとブログ",
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  }
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
+  const settings = await getSiteSettings()
+  const gaId = settings?.googleAnalyticsId || process.env.NEXT_PUBLIC_GA_ID
+
   return (
     <html lang="ja">
       <head>
-        <Script src="https://identity.netlify.com/v1/netlify-identity-widget.js" />
+        {/* Google Analytics */}
+        {gaId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        )}
       </head>
-      <body>
-        {children}
-        <Script id="netlify-identity-redirect" strategy="afterInteractive">
-          {`
-            if (window.netlifyIdentity) {
-              window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                  window.netlifyIdentity.on("login", () => {
-                    document.location.href = "/admin/";
-                  });
-                }
-              });
-            }
-          `}
-        </Script>
+      <body className="flex flex-col min-h-screen">
+        <Header siteTitle={settings?.title || "Ennek"} />
+        <main className="flex-grow pt-16 md:pt-20">
+          {children}
+        </main>
+        <Footer
+          siteTitle={settings?.title || "Ennek"}
+          footerText={settings?.footerText}
+          socialLinks={settings?.socialLinks}
+        />
       </body>
     </html>
-  );
+  )
 }

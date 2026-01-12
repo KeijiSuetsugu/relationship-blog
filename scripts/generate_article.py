@@ -4,6 +4,7 @@
 - 5000〜6000字の実用的な記事（2パート生成方式）
 - Unsplash無料画像
 - 重複防止機能（4層チェック）
+- Discord通知機能
 """
 
 import os
@@ -22,6 +23,9 @@ PROJECT_ROOT = Path(__file__).parent.parent
 POSTS_DIR = PROJECT_ROOT / "content" / "posts"
 IMAGES_DIR = PROJECT_ROOT / "public" / "images"
 HISTORY_FILE = PROJECT_ROOT / "scripts" / "post_history.json"
+
+# ブログURL（本番サイト）
+BLOG_URL = "https://ennekrelationship.netlify.app"
 
 
 class ArticleGenerator:
@@ -472,6 +476,79 @@ charCount: {article['char_count']}
         return filepath
 
 
+def send_discord_notification(article: dict):
+    """Discord Webhookで記事生成通知を送信"""
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+    
+    if not webhook_url:
+        print("⚠️ DISCORD_WEBHOOK_URLが設定されていません。通知をスキップします。")
+        return False
+    
+    try:
+        # 記事のプレビュー（最初の200文字）
+        preview = article['content'][:200].replace('\n', ' ').strip() + "..."
+        
+        # Discord Embed形式のメッセージ
+        embed = {
+            "title": "📝 新しい記事が生成されました！",
+            "color": 5814783,  # 紫色
+            "fields": [
+                {
+                    "name": "📌 タイトル",
+                    "value": article['title'],
+                    "inline": False
+                },
+                {
+                    "name": "🎯 テーマ",
+                    "value": article['theme'],
+                    "inline": True
+                },
+                {
+                    "name": "📊 文字数",
+                    "value": f"{article['char_count']:,}字",
+                    "inline": True
+                },
+                {
+                    "name": "📅 日付",
+                    "value": article['date'],
+                    "inline": True
+                },
+                {
+                    "name": "📖 プレビュー",
+                    "value": preview,
+                    "inline": False
+                }
+            ],
+            "footer": {
+                "text": "noteへの投稿をお忘れなく！"
+            },
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        # ブログへのリンクを追加
+        blog_post_url = f"{BLOG_URL}/posts/{article['slug']}"
+        
+        payload = {
+            "content": f"🔗 **ブログ記事**: {blog_post_url}\n\n📋 **noteへコピー用**:\n下記の記事内容をnoteに投稿してください。",
+            "embeds": [embed]
+        }
+        
+        response = requests.post(
+            webhook_url,
+            json=payload,
+            headers={"Content-Type": "application/json"},
+            timeout=30
+        )
+        response.raise_for_status()
+        
+        print("✅ Discord通知を送信しました")
+        return True
+        
+    except Exception as e:
+        print(f"⚠️ Discord通知エラー: {e}")
+        return False
+
+
 def main():
     """メイン処理"""
     print("=" * 50)
@@ -485,6 +562,9 @@ def main():
     
     # 記事を保存
     filepath = generator.save_article(article)
+    
+    # Discord通知を送信
+    send_discord_notification(article)
     
     print("\n" + "=" * 50)
     print("✨ 完了！")

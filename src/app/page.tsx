@@ -1,138 +1,278 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { getSortedPostsData, PostData } from '@/lib/posts';
-import { format } from 'date-fns';
-import { ja } from 'date-fns/locale';
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRight, Mail } from 'lucide-react'
+import { PortableText } from '@portabletext/react'
+import { client, isSanityConfigured } from '@/sanity/lib/client'
+import { siteSettingsQuery, latestPostsQuery } from '@/sanity/lib/queries'
+import { urlFor } from '@/sanity/lib/image'
+import BlogCard from '@/components/BlogCard'
+import type { SiteSettings, Post } from '@/sanity/lib/types'
 
-function PostCard({ post, index }: { post: PostData; index: number }) {
-  return (
-    <article 
-      className={`card opacity-0 animate-fade-in-up`}
-      style={{ animationDelay: `${index * 0.1}s` }}
-    >
-      <Link href={`/posts/${post.slug}`}>
-        {post.image ? (
-          <div className="relative h-52 overflow-hidden">
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              className="object-cover transition-transform duration-500 hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-          </div>
-        ) : (
-          <div className="h-52 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center">
-            <svg className="w-16 h-16 text-white/30" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-          </div>
-        )}
-        <div className="p-6">
-          <div className="flex items-center gap-3 mb-3">
-            <time className="text-sm text-[var(--color-muted)]">
-              {format(new Date(post.date), 'yyyy年M月d日', { locale: ja })}
-            </time>
-            <span className="tag">{post.theme.slice(0, 15)}...</span>
-          </div>
-          <h2 className="text-xl font-bold mb-3 line-clamp-2 hover:text-[var(--color-primary)] transition-colors">
-            {post.title}
-          </h2>
-          <p className="text-[var(--color-muted)] text-sm line-clamp-3">
-            {post.excerpt}
-          </p>
-          <div className="mt-4 flex items-center text-[var(--color-primary)] font-medium">
-            <span>続きを読む</span>
-            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </div>
-      </Link>
-    </article>
-  );
+async function getData() {
+  if (!isSanityConfigured) {
+    return { settings: null, posts: [] }
+  }
+  
+  try {
+    const [settings, posts] = await Promise.all([
+      client.fetch<SiteSettings>(siteSettingsQuery),
+      client.fetch<Post[]>(latestPostsQuery),
+    ])
+    return { settings, posts }
+  } catch {
+    return { settings: null, posts: [] }
+  }
 }
 
-export default function Home() {
-  const posts = getSortedPostsData();
+export default async function HomePage() {
+  const { settings, posts } = await getData()
 
   return (
     <div className="min-h-screen">
       {/* ヒーローセクション */}
-      <header className="relative overflow-hidden py-20 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)]/10 via-transparent to-[var(--color-accent)]/10" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 opacity-0 animate-fade-in-up">
-              <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent">
-                人間関係の
-              </span>
-              <br />
-              <span className="text-[var(--color-dark)]">ヒントを見つける</span>
-            </h1>
-            <p className="text-lg md:text-xl text-[var(--color-muted)] mb-8 opacity-0 animate-fade-in-up animate-delay-100">
-              毎日更新される、科学的根拠に基づいた<br className="hidden md:block" />
-              人間関係改善のためのアドバイス
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 opacity-0 animate-fade-in-up animate-delay-200">
-              <span className="tag">コミュニケーション</span>
-              <span className="tag">ストレス対処</span>
-              <span className="tag">マインドフルネス</span>
-              <span className="tag">自己肯定感</span>
+      <section className="relative py-12 md:py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="container-pop animate-pop">
+            {/* ヘッダー部分 */}
+            <header className="text-center border-b-4 border-[var(--black)] pb-8 mb-8">
+              <h1 
+                className="text-4xl md:text-6xl lg:text-7xl font-black uppercase mb-4"
+                style={{ 
+                  fontFamily: 'var(--font-display)',
+                  transform: 'rotate(-2deg)'
+                }}
+              >
+                {settings?.heroTagline || 'WELCOME!'}
+              </h1>
+              
+              <div className="tag-badge animate-wiggle">
+                ✨ {settings?.title || 'Ennek'} ✨
+              </div>
+
+              {settings?.heroSubtitle && (
+                <p className="font-bold mt-6 text-lg md:text-xl">
+                  {settings.heroSubtitle}
+                </p>
+              )}
+            </header>
+
+            {/* プロフィール画像 */}
+            <div className="flex justify-center mb-8">
+              <div className="relative w-48 h-48 md:w-64 md:h-64 border-4 border-[var(--black)] shadow-[8px_8px_0_var(--black)] overflow-hidden bg-[var(--accent-blue)]">
+                  {settings?.heroImage ? (
+                    <Image
+                    src={urlFor(settings.heroImage).width(512).height(512).url()}
+                      alt="プロフィール"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-8xl">👋</span>
+                    </div>
+                  )}
+              </div>
+            </div>
+
+            {/* CTAボタン */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/blog" className="btn-pop flex items-center justify-center gap-2">
+                BLOG を見る
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link href="#about" className="btn-pop btn-pop-pink flex items-center justify-center gap-2">
+                ABOUT
+              </Link>
             </div>
           </div>
         </div>
-        
-        {/* 装飾要素 */}
-        <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-[var(--color-primary)]/5 blur-xl" />
-        <div className="absolute bottom-10 right-10 w-32 h-32 rounded-full bg-[var(--color-accent)]/5 blur-xl" />
-      </header>
+      </section>
 
-      {/* 記事一覧 */}
-      <main className="container mx-auto px-4 py-12">
-        {posts.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-[var(--color-accent)]/10 flex items-center justify-center">
-              <svg className="w-12 h-12 text-[var(--color-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold mb-4 text-[var(--color-dark)]">まもなく記事が追加されます</h2>
-            <p className="text-[var(--color-muted)]">毎日自動で新しい記事が投稿されます。<br />お楽しみに！</p>
-          </div>
-        ) : (
-          <>
-            <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-              <span className="relative">
-                最新の記事
-                <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent" />
-              </span>
+      {/* 自己紹介セクション */}
+      <section id="about" className="py-12 md:py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-section">
+            <h2 
+              className="text-2xl md:text-3xl font-black uppercase mb-6"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              {settings?.aboutTitle || 'ABOUT ME'}
             </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div className="grid md:grid-cols-3 gap-8 items-start">
+            {/* プロフィール画像 */}
+              <div className="flex justify-center">
+                <div className="w-full max-w-[200px] aspect-square border-4 border-[var(--black)] shadow-[6px_6px_0_var(--black)] overflow-hidden bg-[var(--accent-pink)]">
+                {settings?.profileImage ? (
+                  <Image
+                      src={urlFor(settings.profileImage).width(400).height(400).url()}
+                    alt="プロフィール"
+                      width={400}
+                      height={400}
+                      className="object-cover w-full h-full"
+                  />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="text-6xl">😊</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* 自己紹介文 */}
+              <div className="md:col-span-2">
+                <div className="text-lg leading-relaxed font-medium">
+                {settings?.aboutContent ? (
+                    <div className="space-y-4">
+                    <PortableText value={settings.aboutContent} />
+                  </div>
+                ) : (
+                    <p>
+                      自己紹介文をSanity CMSで設定してください。<br/>
+                      ここにあなたの紹介文が表示されます。
+                  </p>
+                )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 実績・経歴セクション */}
+      {settings?.achievements && settings.achievements.length > 0 && (
+        <section className="py-12 md:py-20">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="border-4 border-[var(--black)] bg-[var(--white)] shadow-[8px_8px_0_var(--black)] p-6 md:p-10">
+              <h2 
+                className="text-2xl md:text-3xl font-black uppercase mb-8 inline-block px-4 py-2 bg-[var(--accent-blue)] border-2 border-[var(--black)] shadow-[4px_4px_0_var(--black)]"
+                style={{ fontFamily: 'var(--font-display)', transform: 'rotate(-1deg)' }}
+              >
+                TIMELINE
+              </h2>
+
+              <div className="space-y-6">
+                {settings.achievements.map((achievement, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-4 items-start p-4 border-2 border-[var(--black)] hover:bg-[var(--bg-color)] transition-colors"
+                  >
+                    <div className="flex-shrink-0 w-20 h-10 bg-[var(--accent-pink)] border-2 border-[var(--black)] flex items-center justify-center font-black text-sm">
+                          {achievement.year}
+                    </div>
+                    <div>
+                      <h3 className="font-black text-lg">{achievement.title}</h3>
+                        {achievement.description && (
+                        <p className="text-sm mt-1">{achievement.description}</p>
+                        )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 最新ブログ記事セクション */}
+      <section className="py-12 md:py-20">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
+            <h2 
+              className="text-3xl md:text-4xl font-black uppercase inline-block px-4 py-2 bg-[var(--accent-blue)] border-4 border-[var(--black)] shadow-[6px_6px_0_var(--black)]"
+              style={{ fontFamily: 'var(--font-display)', transform: 'rotate(-1deg)' }}
+              >
+              LATEST POSTS
+              </h2>
+            <Link 
+              href="/blog" 
+              className="btn-pop inline-flex items-center gap-2"
+            >
+              VIEW ALL →
+            </Link>
+          </div>
+
+          {posts && posts.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post, index) => (
-                <PostCard key={post.slug} post={post} index={index} />
+                <BlogCard key={post._id} post={post} index={index} />
               ))}
             </div>
-          </>
-        )}
-      </main>
-
-      {/* フッター */}
-      <footer className="border-t border-[var(--color-secondary)] mt-20 py-12 bg-white/50">
-        <div className="container mx-auto px-4 text-center">
-          <div className="mb-6">
-            <span className="text-2xl font-bold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent">
-              Ennek Lab
-            </span>
-          </div>
-          <p className="text-sm text-[var(--color-muted)] mb-4">
-            あなたの「毎日」が、少しずつ良い方に変わっていく
-          </p>
-          <p className="text-xs text-[var(--color-muted)]">
-            © {new Date().getFullYear()} Ennek Lab. All rights reserved.
-          </p>
+          ) : (
+            <div className="text-center py-16 border-4 border-[var(--black)] bg-[var(--white)] shadow-[8px_8px_0_var(--black)]">
+              <span className="text-6xl mb-4 block">📝</span>
+              <p className="font-bold text-lg">
+                まだ記事がありません。<br/>
+                Sanity CMSで記事を作成してください。
+              </p>
+            </div>
+          )}
         </div>
-      </footer>
+      </section>
+
+      {/* お問い合わせセクション */}
+      <section id="contact" className="py-12 md:py-20">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="links-area shadow-[8px_8px_0_var(--black)]">
+          <h2 
+              className="text-3xl md:text-4xl font-black uppercase mb-6"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+              LET&apos;S CONNECT!
+          </h2>
+          
+            <p className="font-bold text-lg mb-8 max-w-xl mx-auto">
+            {settings?.contactInfo || 'お仕事のご依頼やご質問など、お気軽にお問い合わせください。'}
+          </p>
+          
+            <div className="flex flex-wrap justify-center gap-4">
+          {settings?.contactEmail && (
+            <a
+              href={`mailto:${settings.contactEmail}`}
+                  className="btn-pop flex items-center gap-2"
+            >
+              <Mail className="w-5 h-5" />
+                  CONTACT
+                </a>
+              )}
+              
+              {settings?.socialLinks?.twitter && (
+                <a
+                  href={settings.socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-pop"
+                >
+                  X (Twitter)
+                </a>
+              )}
+              
+              {settings?.socialLinks?.instagram && (
+                <a
+                  href={settings.socialLinks.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-pop"
+                >
+                  Instagram
+                </a>
+              )}
+              
+              {settings?.socialLinks?.youtube && (
+                <a
+                  href={settings.socialLinks.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-pop"
+                >
+                  YouTube
+            </a>
+          )}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
