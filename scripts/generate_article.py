@@ -4,7 +4,7 @@
 - 5000〜6000字の実用的な記事（2パート生成方式）
 - Unsplash無料画像
 - 重複防止機能（4層チェック）
-- Discord通知機能
+- Obsidian自動投稿機能
 """
 
 import os
@@ -26,6 +26,9 @@ HISTORY_FILE = PROJECT_ROOT / "scripts" / "post_history.json"
 
 # ブログURL（本番サイト）
 BLOG_URL = "https://ennekrelationship.netlify.app"
+
+# Obsidian Vaultのパス
+OBSIDIAN_VAULT_PATH = Path("/Users/keiji/Desktop/Obsidian/06_blog")
 
 
 class ArticleGenerator:
@@ -476,76 +479,50 @@ charCount: {article['char_count']}
         return filepath
 
 
-def send_discord_notification(article: dict):
-    """Discord Webhookで記事生成通知を送信"""
-    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-    
-    if not webhook_url:
-        print("⚠️ DISCORD_WEBHOOK_URLが設定されていません。通知をスキップします。")
-        return False
-    
+def send_to_obsidian(article: dict):
+    """記事をObsidian Vaultに保存"""
     try:
-        # 記事のプレビュー（最初の200文字）
-        preview = article['content'][:200].replace('\n', ' ').strip() + "..."
+        # Obsidian Vaultディレクトリを確認・作成
+        OBSIDIAN_VAULT_PATH.mkdir(parents=True, exist_ok=True)
         
-        # Discord Embed形式のメッセージ
-        embed = {
-            "title": "📝 新しい記事が生成されました！",
-            "color": 5814783,  # 紫色
-            "fields": [
-                {
-                    "name": "📌 タイトル",
-                    "value": article['title'],
-                    "inline": False
-                },
-                {
-                    "name": "🎯 テーマ",
-                    "value": article['theme'],
-                    "inline": True
-                },
-                {
-                    "name": "📊 文字数",
-                    "value": f"{article['char_count']:,}字",
-                    "inline": True
-                },
-                {
-                    "name": "📅 日付",
-                    "value": article['date'],
-                    "inline": True
-                },
-                {
-                    "name": "📖 プレビュー",
-                    "value": preview,
-                    "inline": False
-                }
-            ],
-            "footer": {
-                "text": "noteへの投稿をお忘れなく！"
-            },
-            "timestamp": datetime.utcnow().isoformat()
-        }
+        # ファイル名を生成（日付_タイトル形式）
+        # ファイル名に使えない文字を除去
+        safe_title = article['title'].replace('/', '').replace('\\', '').replace(':', '').replace('*', '').replace('?', '').replace('"', '').replace('<', '').replace('>', '').replace('|', '')
+        filename = f"{article['date']}_{safe_title[:50]}.md"
+        filepath = OBSIDIAN_VAULT_PATH / filename
         
-        # ブログへのリンクを追加
-        blog_post_url = f"{BLOG_URL}/posts/{article['slug']}"
+        # Obsidian用のフロントマター
+        frontmatter = f"""---
+title: "{article['title']}"
+date: {article['date']}
+theme: "{article['theme']}"
+charCount: {article['char_count']}
+tags:
+  - ブログ
+  - 人間関係
+  - 自動生成
+blogUrl: "{BLOG_URL}/blog/{article['slug']}"
+---
+
+"""
         
-        payload = {
-            "content": f"🔗 **ブログ記事**: {blog_post_url}\n\n📋 **noteへコピー用**:\n下記の記事内容をnoteに投稿してください。",
-            "embeds": [embed]
-        }
+        # コンテンツを組み立て
+        full_content = frontmatter + f"# {article['title']}\n\n" + article['content']
         
-        response = requests.post(
-            webhook_url,
-            json=payload,
-            headers={"Content-Type": "application/json"},
-            timeout=30
-        )
-        response.raise_for_status()
+        # ファイルに保存
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(full_content)
         
-        print("✅ Discord通知を送信しました")
+        print(f"✅ Obsidianに保存しました: {filepath}")
+        print(f"📌 タイトル: {article['title']}")
+        print(f"📊 文字数: {article['char_count']:,}字")
+        print(f"🔗 ブログURL: {BLOG_URL}/blog/{article['slug']}")
         return True
         
     except Exception as e:
-        print(f"⚠️ Discord通知エラー: {e}")
+        print(f"⚠️ Obsidian保存エラー: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 
@@ -563,8 +540,8 @@ def main():
     # 記事を保存
     filepath = generator.save_article(article)
     
-    # Discord通知を送信
-    send_discord_notification(article)
+    # Obsidianに保存
+    send_to_obsidian(article)
     
     print("\n" + "=" * 50)
     print("✨ 完了！")
