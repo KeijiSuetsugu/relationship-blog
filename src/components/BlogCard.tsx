@@ -1,9 +1,16 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
-import { urlFor } from '@/sanity/lib/image'
-import type { Post } from '@/sanity/lib/types'
+
+export interface Post {
+  id: string
+  title: string
+  description?: string
+  slug?: string
+  created_at: string
+  thumb_url?: string
+  media_type?: string
+}
 
 interface BlogCardProps {
   post: Post
@@ -12,9 +19,12 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post, featured = false, index = 0 }: BlogCardProps) {
-  const formattedDate = post.publishedAt
-    ? format(new Date(post.publishedAt), 'yyyy.MM.dd', { locale: ja })
+  const formattedDate = post.created_at
+    ? format(new Date(post.created_at), 'yyyy.MM.dd', { locale: ja })
     : null
+
+  // スラッグがない場合はIDを使用
+  const postLink = `/posts/${post.id}`
 
   return (
     <article
@@ -23,28 +33,26 @@ export default function BlogCard({ post, featured = false, index = 0 }: BlogCard
     >
       {/* サムネイル */}
       <Link
-        href={`/blog/${post.slug.current}`}
+        href={postLink}
         className="block relative overflow-hidden border-b-4 border-[var(--black)]"
         style={{ height: featured ? '300px' : '220px' }}
       >
-        {post.mainImage ? (
-            <Image
-              src={urlFor(post.mainImage).width(800).height(500).url()}
-              alt={post.mainImage.alt || post.title}
-              fill
-            className="object-cover transition-transform duration-300 hover:scale-110"
-              sizes={featured ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'}
-            />
+        {post.thumb_url ? (
+          <img
+            src={post.thumb_url}
+            alt={post.title}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+          />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-pink)] flex items-center justify-center">
             <span className="text-6xl">✦</span>
           </div>
         )}
-        
-        {/* カテゴリーバッジ */}
-        {post.category && (
+
+        {/* メディアタイプバッジ（カテゴリーの代わり） */}
+        {post.media_type && (
           <span className="category-label absolute top-4 left-4">
-            {post.category.title}
+            {post.media_type.toUpperCase()}
           </span>
         )}
       </Link>
@@ -60,43 +68,26 @@ export default function BlogCard({ post, featured = false, index = 0 }: BlogCard
 
         {/* タイトル */}
         <h3
-          className={`font-black leading-tight mb-3 hover:text-[var(--accent-pink)] transition-colors ${
-            featured ? 'text-xl md:text-2xl' : 'text-lg'
-          }`}
+          className={`font-black leading-tight mb-3 hover:text-[var(--accent-pink)] transition-colors ${featured ? 'text-xl md:text-2xl' : 'text-lg'
+            }`}
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          <Link href={`/blog/${post.slug.current}`}>
+          <Link href={postLink}>
             {post.title}
           </Link>
         </h3>
 
         {/* 抜粋 */}
-        {post.excerpt && (
-          <p className={`text-sm leading-relaxed mb-4 ${
-            featured ? 'line-clamp-3' : 'line-clamp-2'
-          }`}>
-            {post.excerpt}
+        {post.description && (
+          <p className={`text-sm leading-relaxed mb-4 ${featured ? 'line-clamp-3' : 'line-clamp-2'
+            }`}>
+            {post.description}
           </p>
-        )}
-
-        {/* タグ */}
-        {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {post.tags.slice(0, 3).map((tag) => (
-              <Link
-                key={tag.slug.current}
-                href={`/blog/tag/${tag.slug.current}`}
-                className="text-xs font-bold px-2 py-1 bg-[var(--accent-blue)] border-2 border-[var(--black)] hover:bg-[var(--accent-pink)] transition-colors"
-              >
-                #{tag.title}
-              </Link>
-            ))}
-          </div>
         )}
 
         {/* 続きを読むボタン */}
         <Link
-          href={`/blog/${post.slug.current}`}
+          href={postLink}
           className="inline-block mt-4 px-4 py-2 bg-[var(--black)] text-[var(--white)] font-bold text-sm uppercase tracking-wider hover:bg-[var(--accent-pink)] hover:text-[var(--black)] transition-all border-2 border-[var(--black)]"
         >
           READ MORE →

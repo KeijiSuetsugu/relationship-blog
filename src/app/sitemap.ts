@@ -1,62 +1,40 @@
 import { MetadataRoute } from 'next'
-import { client, isSanityConfigured } from '@/sanity/lib/client'
-import { allPostSlugsQuery, allCategorySlugsQuery, allTagSlugsQuery } from '@/sanity/lib/queries'
+import { createClient } from '@supabase/supabase-js'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  const supabase = createClient(supabaseUrl, supabaseKey)
 
-  // 静的ページ
-  const staticPages: MetadataRoute.Sitemap = [
+  // サイト設定（ベースURL）を取得
+  const { data: settings } = await supabase
+    .from('site_settings')
+    .select('site_url')
+    .single()
+
+  const listUrl = settings?.site_url || 'https://example.com' // フォールバック
+
+  // 公開済みの記事を取得
+  const { data: posts } = await supabase
+    .from('posts')
+    .select('id, updated_at')
+    .eq('is_draft', false)
+    .order('created_at', { ascending: false })
+
+  const postUrls = (posts || []).map((post) => ({
+    url: `${listUrl}/posts/${post.id}`,
+    lastModified: new Date(post.updated_at),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
+  return [
     {
-      url: siteUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: `${siteUrl}/blog`,
+      url: listUrl,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 0.9,
+      priority: 1,
     },
+    ...postUrls,
   ]
-
-  // Sanityが設定されていない場合は静的ページのみ返す
-  if (!isSanityConfigured) {
-    return staticPages
-  }
-
-  try {
-    // ブログ記事
-    const postSlugs = await client.fetch<string[]>(allPostSlugsQuery)
-    const postPages: MetadataRoute.Sitemap = postSlugs.map((slug) => ({
-      url: `${siteUrl}/blog/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    }))
-
-    // カテゴリー
-    const categorySlugs = await client.fetch<string[]>(allCategorySlugsQuery)
-    const categoryPages: MetadataRoute.Sitemap = categorySlugs.map((slug) => ({
-      url: `${siteUrl}/blog/category/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    }))
-
-    // タグ
-    const tagSlugs = await client.fetch<string[]>(allTagSlugsQuery)
-    const tagPages: MetadataRoute.Sitemap = tagSlugs.map((slug) => ({
-      url: `${siteUrl}/blog/tag/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.5,
-    }))
-
-    return [...staticPages, ...postPages, ...categoryPages, ...tagPages]
-  } catch {
-    // Sanityへの接続に失敗した場合は静的ページのみ返す
-    return staticPages
-  }
 }

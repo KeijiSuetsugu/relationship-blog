@@ -1,30 +1,120 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AdminLayout from '@/components/AdminLayout'
+import { supabase } from '@/lib/supabase'
 import { Save, Globe, Mail, Twitter, Github, Instagram } from 'lucide-react'
+
+interface SiteSettings {
+    id?: string
+    site_name: string
+    site_description: string
+    site_url: string
+    contact_email: string
+    twitter: string
+    github: string
+    instagram: string
+}
 
 export default function AdminSettingsPage() {
     const [isLoading, setIsLoading] = useState(false)
-    const [settings, setSettings] = useState({
-        siteName: 'エンネク公式サイト',
-        siteDescription: 'AI技術とデジタルマーケティングの最新情報をお届けします',
-        siteUrl: 'https://example.com',
-        contactEmail: 'contact@example.com',
+    const [isFetching, setIsFetching] = useState(true)
+    const [settings, setSettings] = useState<SiteSettings>({
+        site_name: '',
+        site_description: '',
+        site_url: '',
+        contact_email: '',
         twitter: '',
         github: '',
         instagram: '',
     })
 
+    useEffect(() => {
+        fetchSettings()
+    }, [])
+
+    const fetchSettings = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('site_settings')
+                .select('*')
+                .single()
+
+            if (error && error.code !== 'PGRST116') { // PGRST116 is "The result contains 0 rows"
+                throw error
+            }
+
+            if (data) {
+                setSettings(data)
+            }
+        } catch (error) {
+            console.error('Error fetching settings:', error)
+            // エラー表示等は必要に応じて追加
+        } finally {
+            setIsFetching(false)
+        }
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
 
-        // TODO: Supabaseに設定を保存
-        setTimeout(() => {
+        try {
+            let result
+
+            // IDがある場合は更新、なければ新規作成（通常はschema.sqlで初期データが入るはずだが念のため）
+            if (settings.id) {
+                result = await supabase
+                    .from('site_settings')
+                    .update({
+                        site_name: settings.site_name,
+                        site_description: settings.site_description,
+                        site_url: settings.site_url,
+                        contact_email: settings.contact_email,
+                        twitter: settings.twitter,
+                        github: settings.github,
+                        instagram: settings.instagram,
+                        updated_at: new Date().toISOString(),
+                    })
+                    .eq('id', settings.id)
+            } else {
+                result = await supabase
+                    .from('site_settings')
+                    .insert([{
+                        site_name: settings.site_name,
+                        site_description: settings.site_description,
+                        site_url: settings.site_url,
+                        contact_email: settings.contact_email,
+                        twitter: settings.twitter,
+                        github: settings.github,
+                        instagram: settings.instagram,
+                    }])
+            }
+
+            if (result.error) throw result.error
+
             alert('設定を保存しました')
+
+            // 新規作成の場合はIDを再取得するためにフェッチし直す
+            if (!settings.id) {
+                fetchSettings()
+            }
+        } catch (error) {
+            console.error('Error saving settings:', error)
+            alert('設定の保存に失敗しました')
+        } finally {
             setIsLoading(false)
-        }, 1000)
+        }
+    }
+
+    if (isFetching) {
+        return (
+            <AdminLayout>
+                <div className="flex items-center justify-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+                </div>
+            </AdminLayout>
+        )
     }
 
     return (
@@ -37,7 +127,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* 基本情報 */}
+                    {/*基本情報*/}
                     <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
                         <h2 className="text-xl font-bold text-slate-900 mb-6">基本情報</h2>
 
@@ -53,9 +143,10 @@ export default function AdminSettingsPage() {
                                     <input
                                         id="siteName"
                                         type="text"
-                                        value={settings.siteName}
-                                        onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
+                                        value={settings.site_name}
+                                        onChange={(e) => setSettings({ ...settings, site_name: e.target.value })}
                                         className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                        placeholder="サイト名を入力"
                                     />
                                 </div>
                             </div>
@@ -66,10 +157,11 @@ export default function AdminSettingsPage() {
                                 </label>
                                 <textarea
                                     id="siteDescription"
-                                    value={settings.siteDescription}
-                                    onChange={(e) => setSettings({ ...settings, siteDescription: e.target.value })}
+                                    value={settings.site_description || ''}
+                                    onChange={(e) => setSettings({ ...settings, site_description: e.target.value })}
                                     rows={3}
                                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
+                                    placeholder="サイトの説明を入力"
                                 />
                             </div>
 
@@ -80,9 +172,10 @@ export default function AdminSettingsPage() {
                                 <input
                                     id="siteUrl"
                                     type="url"
-                                    value={settings.siteUrl}
-                                    onChange={(e) => setSettings({ ...settings, siteUrl: e.target.value })}
+                                    value={settings.site_url || ''}
+                                    onChange={(e) => setSettings({ ...settings, site_url: e.target.value })}
                                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                    placeholder="https://example.com"
                                 />
                             </div>
                         </div>
@@ -103,9 +196,10 @@ export default function AdminSettingsPage() {
                                 <input
                                     id="contactEmail"
                                     type="email"
-                                    value={settings.contactEmail}
-                                    onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
+                                    value={settings.contact_email || ''}
+                                    onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })}
                                     className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                    placeholder="contact@example.com"
                                 />
                             </div>
                         </div>
@@ -127,7 +221,7 @@ export default function AdminSettingsPage() {
                                     <input
                                         id="twitter"
                                         type="text"
-                                        value={settings.twitter}
+                                        value={settings.twitter || ''}
                                         onChange={(e) => setSettings({ ...settings, twitter: e.target.value })}
                                         placeholder="@username"
                                         className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -146,7 +240,7 @@ export default function AdminSettingsPage() {
                                     <input
                                         id="github"
                                         type="text"
-                                        value={settings.github}
+                                        value={settings.github || ''}
                                         onChange={(e) => setSettings({ ...settings, github: e.target.value })}
                                         placeholder="username"
                                         className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -165,7 +259,7 @@ export default function AdminSettingsPage() {
                                     <input
                                         id="instagram"
                                         type="text"
-                                        value={settings.instagram}
+                                        value={settings.instagram || ''}
                                         onChange={(e) => setSettings({ ...settings, instagram: e.target.value })}
                                         placeholder="username"
                                         className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"

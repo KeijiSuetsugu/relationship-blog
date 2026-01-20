@@ -1,16 +1,15 @@
 import { Suspense } from 'react'
-import { client, isSanityConfigured } from '@/sanity/lib/client'
-import { 
-  postsCountQuery, 
-  categoriesQuery, 
-  tagsQuery,
-} from '@/sanity/lib/queries'
+import { createClient } from '@supabase/supabase-js'
 import BlogCard from '@/components/BlogCard'
 import Pagination from '@/components/Pagination'
-import type { Post, Category, Tag } from '@/sanity/lib/types'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Search, Layers } from 'lucide-react'
+import { Search } from 'lucide-react'
+
+// Supabase初期化
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -24,87 +23,29 @@ interface BlogPageProps {
 }
 
 async function getPosts(page: number, searchQuery?: string) {
-  if (!isSanityConfigured) {
-    return { posts: [], total: 0 }
-  }
-
   const start = (page - 1) * POSTS_PER_PAGE
-  const end = start + POSTS_PER_PAGE
+  const end = start + POSTS_PER_PAGE - 1 // Supabase range is inclusive
 
   try {
+    let query = supabase
+      .from('posts')
+      .select('*', { count: 'exact' })
+      .eq('is_draft', false)
+      .order('created_at', { ascending: false })
+      .range(start, end)
+
     if (searchQuery) {
-      const posts = await client.fetch<Post[]>(
-        `*[_type == "post" && status == "published" && (
-          title match $searchTerm + "*" ||
-          excerpt match $searchTerm + "*"
-        )] | order(publishedAt desc) {
-          _id,
-          title,
-          slug,
-          excerpt,
-          mainImage,
-          publishedAt,
-          "category": category->{
-            title,
-            slug,
-            color
-          },
-          "tags": tags[]->{
-            title,
-            slug
-          }
-        }`,
-        { searchTerm: searchQuery }
-      )
-      return {
-        posts: posts.slice(start, end),
-        total: posts.length,
-      }
+      query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`)
     }
 
-    const [posts, total] = await Promise.all([
-      client.fetch<Post[]>(
-        `*[_type == "post" && status == "published"] | order(publishedAt desc) [$start...$end] {
-          _id,
-          title,
-          slug,
-          excerpt,
-          mainImage,
-          publishedAt,
-          "category": category->{
-            title,
-            slug,
-            color
-          },
-          "tags": tags[]->{
-            title,
-            slug
-          }
-        }`,
-        { start, end }
-      ),
-      client.fetch<number>(postsCountQuery),
-    ])
+    const { data: posts, count, error } = await query
 
-    return { posts, total }
-  } catch {
+    if (error) throw error
+
+    return { posts: posts || [], total: count || 0 }
+  } catch (error) {
+    console.error('Error fetching posts:', error)
     return { posts: [], total: 0 }
-  }
-}
-
-async function getFilters() {
-  if (!isSanityConfigured) {
-    return { categories: [], tags: [] }
-  }
-
-  try {
-    const [categories, tags] = await Promise.all([
-      client.fetch<Category[]>(categoriesQuery),
-      client.fetch<Tag[]>(tagsQuery),
-    ])
-    return { categories, tags }
-  } catch {
-    return { categories: [], tags: [] }
   }
 }
 
@@ -138,8 +79,8 @@ async function BlogContent({ page, searchQuery }: { page: number; searchQuery?: 
           {searchQuery ? 'No results found' : 'No articles yet'}
         </h3>
         <p className="text-[var(--color-muted)]">
-          {searchQuery 
-            ? '別のキーワードで検索してみてください。' 
+          {searchQuery
+            ? '別のキーワードで検索してみてください。'
             : 'まだ記事が投稿されていません。'}
         </p>
       </div>
@@ -151,16 +92,16 @@ async function BlogContent({ page, searchQuery }: { page: number; searchQuery?: 
       {searchQuery && (
         <div className="mb-10 p-5 rounded-2xl border border-[var(--color-primary)]/20 bg-[var(--color-surface)]">
           <p className="text-[var(--color-muted)]">
-            「<span className="font-semibold text-[var(--color-light)]">{searchQuery}</span>」の検索結果: 
+            「<span className="font-semibold text-[var(--color-light)]">{searchQuery}</span>」の検索結果:
             <span className="font-semibold text-[var(--color-primary)] ml-2">{total}件</span>
           </p>
         </div>
       )}
-      
+
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post, index) => (
-          <div 
-            key={post._id}
+          <div
+            key={post.id}
             className="animate-fade-in-up"
             style={{ animationDelay: `${index * 0.05}s` }}
           >
@@ -171,73 +112,14 @@ async function BlogContent({ page, searchQuery }: { page: number; searchQuery?: 
 
       {totalPages > 1 && (
         <div className="mt-16">
-          <Pagination 
-            currentPage={page} 
-            totalPages={totalPages} 
-            basePath={searchQuery ? `/blog?q=${searchQuery}` : '/blog'} 
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            basePath={searchQuery ? `/blog?q=${searchQuery}` : '/blog'}
           />
         </div>
       )}
     </>
-  )
-}
-
-async function Sidebar() {
-  const { categories, tags } = await getFilters()
-
-  return (
-    <aside className="space-y-8">
-      {/* カテゴリー */}
-      {categories && categories.length > 0 && (
-        <div className="card p-6">
-          <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-primary)] mb-6 flex items-center gap-2">
-            <Layers className="w-4 h-4" />
-            Categories
-          </h3>
-          <ul className="space-y-1">
-            {categories.map((category) => (
-              <li key={category._id}>
-                <Link
-                  href={`/blog/category/${category.slug.current}`}
-                  className="flex items-center justify-between py-2.5 px-4 rounded-xl text-[var(--color-muted)] hover:text-[var(--color-light)] hover:bg-[var(--color-surface-light)] transition-all duration-300 group"
-                >
-                  <span className="flex items-center gap-3">
-                    <span
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: category.color || 'var(--color-primary)' }}
-                    />
-                    <span className="text-sm">{category.title}</span>
-                  </span>
-                  <span className="text-xs text-[var(--color-muted)]/50 group-hover:text-[var(--color-primary)]">
-                    {category.postCount || 0}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* タグ */}
-      {tags && tags.length > 0 && (
-        <div className="card p-6">
-          <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-primary)] mb-6">
-            Tags
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <Link
-                key={tag._id}
-                href={`/blog/tag/${tag.slug.current}`}
-                className="tag"
-              >
-                #{tag.title}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </aside>
   )
 }
 
@@ -251,14 +133,14 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         {/* ヘッダー */}
         <div className="text-center mb-16">
           <span className="inline-block text-xs tracking-[0.3em] uppercase text-[var(--color-primary)] mb-4">Blog</span>
-          <h1 
+          <h1
             className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-6"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Articles
           </h1>
           <div className="mx-auto w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-primary)] to-transparent mb-10" />
-          
+
           {/* 検索フォーム */}
           <form action="/blog" method="GET" className="max-w-xl mx-auto">
             <div className="relative">
@@ -275,15 +157,11 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         </div>
 
         {/* メインコンテンツ */}
-        <div className="grid lg:grid-cols-4 gap-12">
-          <div className="lg:col-span-3">
+        <div className="grid lg:grid-cols-1 gap-12">
+          {/* サイドバーは一時的に無効化（カテゴリー・タグ機能未実装のため） */}
+          <div className="lg:col-span-1">
             <Suspense fallback={<BlogSkeleton />}>
               <BlogContent page={page} searchQuery={searchQuery} />
-            </Suspense>
-          </div>
-          <div className="lg:col-span-1">
-            <Suspense fallback={<div className="animate-pulse h-64 bg-[var(--color-surface)] rounded-2xl" />}>
-              <Sidebar />
             </Suspense>
           </div>
         </div>

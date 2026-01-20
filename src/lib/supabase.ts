@@ -47,3 +47,4 @@ export const auth = {
     return supabase.auth.onAuthStateChange(callback)
   },
 }
+
