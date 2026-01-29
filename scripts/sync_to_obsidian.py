@@ -52,17 +52,28 @@ def convert_to_obsidian_format(filepath: Path) -> tuple:
     date = metadata.get('date', '')
     theme = metadata.get('theme', '')
     char_count = metadata.get('charCount', '0')
+    category = metadata.get('category', 'relationship')
+    category_name = metadata.get('categoryName', '人間関係')
     slug = filepath.stem
+    
+    # カテゴリに応じたタグを設定
+    category_tags = {
+        'relationship': '人間関係',
+        'health': '健康',
+        'exercise': '運動'
+    }
+    tag = category_tags.get(category, '人間関係')
     
     # Obsidian用フロントマター
     obsidian_frontmatter = f"""---
 title: "{title}"
 date: {date}
 theme: "{theme}"
+category: "{category_name}"
 charCount: {char_count}
 tags:
   - ブログ
-  - 人間関係
+  - {tag}
   - 自動生成
 blogUrl: "{BLOG_URL}/blog/{slug}"
 synced: "{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
